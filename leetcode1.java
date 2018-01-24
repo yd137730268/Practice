@@ -3,27 +3,19 @@ package com.dy.leetcode1;
 public class Solution {
 	public int[] twoSum(int[] inputs, int target) {
 		int[] result = new int[] { 0, 0 };
-		if (inputs == null || inputs.length == 0)
-			return result;
-
-		long[] sums = new long[inputs.length];
-		sums[0] = inputs[0];
-		for (int i = 1; i < inputs.length; i++) {
-			sums[i] = sums[i - 1] + inputs[i];
-		}
-		forA: for (int i = sums.length - 1; i > 0; i--) {
-			if (target == sums[i]) {
-				result[0] = 0;
+		Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+		for (int i =0;i<inputs.length;i++) {
+			int val = inputs[i];
+			if(map.containsKey(val) && target == val*2){
+				result[0] = map.get(val);
 				result[1] = i;
-				break forA;
+				break;
+			} else if(map.containsKey(target-val)){
+				result[0] = map.get(target-val);
+				result[1] = i;
+				break;
 			}
-			for (int j = 0; j < i; j++) {
-				if (target == (sums[i] - sums[j])) {
-					result[0] = j + 1;
-					result[1] = i;
-					break forA;
-				}
-			}
+			map.put(val, i);
 		}
 
 		return result;
